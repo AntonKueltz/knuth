@@ -1,0 +1,24 @@
+[project]
+name = "knuth"
+version = "0.1.0"
+description = "Code from \"The Art of Computer Programming\""
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = []
+
+[dependency-groups]
+dev = [
+    "gcovr>=8.3",
+    "parameterized>=0.9.0",
+    "pytest>=8.4.1",
+    "pytest-cov>=6.2.1",
+    "setuptools>=80.9.0",
+]
+
+[build-system]
+requires = ["setuptools>=80.9"]
+build-backend = "setuptools.build_meta"
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+addopts = "--cov=knuth --cov-report=term-missing"
