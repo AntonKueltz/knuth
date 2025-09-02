@@ -48,7 +48,7 @@ static PyMemberDef BinaryTreeNode_members[] = {
 static PyTypeObject BinaryTreeNodeType = {
     .ob_base = PyVarObject_HEAD_INIT(NULL, 0)
     .tp_name = "knuth.binary_tree.BinaryTreeNode",
-    .tp_doc = PyDoc_STR("A node in a binary tree that can store string data."),
+    .tp_doc = PyDoc_STR("A node in a binary tree that can store arbitrary data."),
     .tp_basicsize = sizeof(BinaryTreeNodeObject),
     .tp_itemsize = 0,
     .tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE,
@@ -171,7 +171,7 @@ static PyTypeObject RecursiveBinaryTreeType = {
 
 
 /** module configuration and initialization **/
-static int tree_module_exec(PyObject * m) {
+static int binary_tree_module_exec(PyObject * m) {
     if (PyType_Ready(&BinaryTreeNodeType) < 0) {
         return -1;
     }
@@ -189,20 +189,20 @@ static int tree_module_exec(PyObject * m) {
     return 0;
 }
 
-static PyModuleDef_Slot tree_module_slots[] = {
-    {Py_mod_exec, tree_module_exec},
+static PyModuleDef_Slot binary_tree_module_slots[] = {
+    {Py_mod_exec, binary_tree_module_exec},
     {Py_mod_multiple_interpreters, Py_MOD_MULTIPLE_INTERPRETERS_NOT_SUPPORTED},
     {0, NULL}
 };
 
-static struct PyModuleDef tree_module = {
+static struct PyModuleDef binary_tree_module = {
     .m_base = PyModuleDef_HEAD_INIT,
     .m_name = "binary_tree",
     .m_doc = "Various implementations of the binary tree abstract data type (ADT).",
     .m_size = 0,
-    .m_slots = tree_module_slots,
+    .m_slots = binary_tree_module_slots,
 };
 
 PyMODINIT_FUNC PyInit_binary_tree(void) {
-    return PyModuleDef_Init(&tree_module);
+    return PyModuleDef_Init(&binary_tree_module);
 }

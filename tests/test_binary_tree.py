@@ -5,7 +5,7 @@ from knuth.binary_tree import BinaryTreeNode, RecursiveBinaryTree
 from parameterized import parameterized
 
 
-class TestTree(TestCase):
+class TestBinaryTree(TestCase):
     def _get_test_tree(self, cls: type):
         root = BinaryTreeNode("A", None, None)
         root.left = BinaryTreeNode("B", None, None)

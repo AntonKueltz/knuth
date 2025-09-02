@@ -9,6 +9,7 @@ wheels/
 _build/
 _static/
 _templates/
+.pytest_cache/
 
 # Virtual environments
 .venv

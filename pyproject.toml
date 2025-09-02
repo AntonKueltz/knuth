@@ -21,4 +21,3 @@ build-backend = "setuptools.build_meta"
 
 [tool.pytest.ini_options]
 pythonpath = ["."]
-addopts = "--cov=knuth --cov-report=term-missing"
