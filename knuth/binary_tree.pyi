@@ -10,7 +10,7 @@ class BinaryTreeNode[T]:
     def __init__(self, value: T, left: BinaryTreeNode | None, right: BinaryTreeNode | None) -> None: ...
 
 
-class RecursiveBinaryTree[T]:
+class BinaryTree[T]:
     root: BinaryTreeNode[T] | None
     
     def __init__(self, root: BinaryTreeNode[T] | None) -> None: ...

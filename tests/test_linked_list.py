@@ -4,6 +4,13 @@ from knuth.linked_list import SinglyLinkedList, SinglyLinkedListNode
 
 
 class TestSinglyLinkedList(TestCase):
+    def test_is_empty(self):
+        lst = SinglyLinkedList(None)
+        self.assertTrue(lst.is_empty())
+        
+        lst = SinglyLinkedList(SinglyLinkedListNode(1, None))
+        self.assertFalse(lst.is_empty())
+    
     def test_insert(self):
         lst = SinglyLinkedList(None)
         self.assertEqual(lst.size, 0)

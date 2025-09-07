@@ -87,6 +87,10 @@ static PyMemberDef SinglyLinkedList_members[] = {
     {NULL}
 };
 
+static PyObject * SinglyLinkedList_isEmpty(SinglyLinkedListObject * self) {
+    return (self->size <= 0) ? Py_True : Py_False;
+}
+
 static PyObject * SinglyLinkedList_insert(SinglyLinkedListObject * self, PyObject * value) {
     PyObject * next = self->head ? self->head : Py_None;
     PyObject * node = PyObject_CallFunction((PyObject *)&SinglyLinkedListNodeType, "OO", value, next);
@@ -116,6 +120,7 @@ static PyObject * SinglyLinkedList_pop(SinglyLinkedListObject * self) {
 }
 
 static PyMethodDef SinglyLinkedList_methods[] = {
+    {"is_empty", (PyCFunction)SinglyLinkedList_isEmpty, METH_NOARGS, "Check whether the list has any entries."},
     {"insert", (PyCFunction)SinglyLinkedList_insert, METH_O, "Insert a node at the head of the list."},
     {"pop", (PyCFunction)SinglyLinkedList_pop, METH_NOARGS, "Remove the head of the list and return the value stored in it."},
     {NULL}

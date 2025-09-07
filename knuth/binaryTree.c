@@ -59,18 +59,18 @@ static PyTypeObject BinaryTreeNodeType = {
 };
 
 
-/** RecursiveBinaryTree type **/
+/** BinaryTree type **/
 typedef struct {
     PyObject_HEAD
     PyObject * root;
-} RecursiveBinaryTreeObject;
+} BinaryTreeObject;
 
-static void RecursiveBinaryTree_dealloc(RecursiveBinaryTreeObject * self) {
+static void BinaryTree_dealloc(BinaryTreeObject * self) {
     Py_XDECREF(self->root);
     Py_TYPE(self)->tp_free((PyObject *) self);
 }
 
-static int RecursiveBinaryTree_init(RecursiveBinaryTreeObject * self, PyObject * args) {
+static int BinaryTree_init(BinaryTreeObject * self, PyObject * args) {
     PyObject * root = NULL;
 
     if (!PyArg_ParseTuple(args, "O", &root)) {
@@ -83,8 +83,8 @@ static int RecursiveBinaryTree_init(RecursiveBinaryTreeObject * self, PyObject *
     return 0;
 }
 
-static PyMemberDef RecursiveBinaryTree_members[] = {
-    {"root", Py_T_OBJECT_EX, offsetof(RecursiveBinaryTreeObject, root), 0, "the root node of the tree"},
+static PyMemberDef BinaryTree_members[] = {
+    {"root", Py_T_OBJECT_EX, offsetof(BinaryTreeObject, root), 0, "the root node of the tree"},
     {NULL}
 };
 
@@ -98,7 +98,7 @@ static void preorderHelper(PyObject * node, PyObject * visit) {
     preorderHelper(((BinaryTreeNodeObject *)node)->right, visit);
 }
 
-static PyObject * RecursiveBinaryTree_preorder(RecursiveBinaryTreeObject * self, PyObject * visitFunc) {
+static PyObject * BinaryTree_preorder(BinaryTreeObject * self, PyObject * visitFunc) {
     if (!PyCallable_Check(visitFunc)) {
         PyErr_SetString(PyExc_TypeError, "visit paramater must be callable");
         return NULL;
@@ -108,23 +108,23 @@ static PyObject * RecursiveBinaryTree_preorder(RecursiveBinaryTreeObject * self,
     Py_RETURN_NONE;
 }
 
-static void inorderHelper(PyObject * node, PyObject * visit) {
+static void recursiveInorderHelper(PyObject * node, PyObject * visit) {
     if (node == Py_None) {
         return;
     }
 
-    inorderHelper(((BinaryTreeNodeObject *)node)->left, visit);
+    recursiveInorderHelper(((BinaryTreeNodeObject *)node)->left, visit);
     PyObject_CallObject(visit, Py_BuildValue("(O)", node));
-    inorderHelper(((BinaryTreeNodeObject *)node)->right, visit);
+    recursiveInorderHelper(((BinaryTreeNodeObject *)node)->right, visit);
 }
 
-static PyObject * RecursiveBinaryTree_inorder(RecursiveBinaryTreeObject * self, PyObject * visitFunc) {
+static PyObject * BinaryTree_inorder(BinaryTreeObject * self, PyObject * visitFunc) {
     if (!PyCallable_Check(visitFunc)) {
         PyErr_SetString(PyExc_TypeError, "visit paramater must be callable");
         return NULL;
     }
 
-    inorderHelper(self->root, visitFunc);
+    recursiveInorderHelper(self->root, visitFunc);
     Py_RETURN_NONE;
 }
 
@@ -138,7 +138,7 @@ static void postorderHelper(PyObject * node, PyObject * visit) {
     PyObject_CallObject(visit, Py_BuildValue("(O)", node));
 }
 
-static PyObject * RecursiveBinaryTree_postorder(RecursiveBinaryTreeObject * self, PyObject * visitFunc) {
+static PyObject * BinaryTree_postorder(BinaryTreeObject * self, PyObject * visitFunc) {
     if (!PyCallable_Check(visitFunc)) {
         PyErr_SetString(PyExc_TypeError, "visit paramater must be callable");
         return NULL;
@@ -148,25 +148,25 @@ static PyObject * RecursiveBinaryTree_postorder(RecursiveBinaryTreeObject * self
     Py_RETURN_NONE;
 }
 
-static PyMethodDef RecursiveBinaryTree_methods[] = {
-    {"preorder", (PyCFunction)RecursiveBinaryTree_preorder, METH_O, "Visit the nodes of the tree pre-order."},
-    {"inorder", (PyCFunction)RecursiveBinaryTree_inorder, METH_O, "Visit the nodes of the tree in-order."},
-    {"postorder", (PyCFunction)RecursiveBinaryTree_postorder, METH_O, "Visit the nodes of the tree post-order."},
+static PyMethodDef BinaryTree_methods[] = {
+    {"preorder", (PyCFunction)BinaryTree_preorder, METH_O, "Visit the nodes of the tree pre-order."},
+    {"inorder", (PyCFunction)BinaryTree_inorder, METH_O, "Visit the nodes of the tree in-order."},
+    {"postorder", (PyCFunction)BinaryTree_postorder, METH_O, "Visit the nodes of the tree post-order."},
     {NULL}
 };
 
-static PyTypeObject RecursiveBinaryTreeType = {
+static PyTypeObject BinaryTreeType = {
     .ob_base = PyVarObject_HEAD_INIT(NULL, 0)
-    .tp_name = "knuth.binary_tree.RecursiveBinaryTree",
+    .tp_name = "knuth.binary_tree.BinaryTree",
     .tp_doc = PyDoc_STR("A binary tree whose algorithms are mainly implemeted with recursion."),
-    .tp_basicsize = sizeof(RecursiveBinaryTreeObject),
+    .tp_basicsize = sizeof(BinaryTreeObject),
     .tp_itemsize = 0,
     .tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE,
     .tp_new = PyType_GenericNew,
-    .tp_init = (initproc)RecursiveBinaryTree_init,
-    .tp_dealloc = (destructor) RecursiveBinaryTree_dealloc,
-    .tp_members = RecursiveBinaryTree_members,
-    .tp_methods = RecursiveBinaryTree_methods,
+    .tp_init = (initproc)BinaryTree_init,
+    .tp_dealloc = (destructor) BinaryTree_dealloc,
+    .tp_members = BinaryTree_members,
+    .tp_methods = BinaryTree_methods,
 };
 
 
@@ -179,10 +179,10 @@ static int binary_tree_module_exec(PyObject * m) {
         return -1;
     }
 
-    if (PyType_Ready(&RecursiveBinaryTreeType) < 0) {
+    if (PyType_Ready(&BinaryTreeType) < 0) {
         return -1;
     }
-    if (PyModule_AddObjectRef(m, "RecursiveBinaryTree", (PyObject *) &RecursiveBinaryTreeType) < 0) {
+    if (PyModule_AddObjectRef(m, "BinaryTree", (PyObject *) &BinaryTreeType) < 0) {
         return -1;
     }
 

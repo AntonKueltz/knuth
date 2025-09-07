@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from knuth.binary_tree import BinaryTreeNode, RecursiveBinaryTree
+from knuth.binary_tree import BinaryTreeNode, BinaryTree
 
 from parameterized import parameterized
 
@@ -19,7 +19,7 @@ class TestBinaryTree(TestCase):
         return cls(root)
     
     @parameterized.expand([
-        RecursiveBinaryTree,
+        BinaryTree,
     ])
     def test_preorder_traversal(self, tree_type: type):
         expected =  ['A', 'B', 'D', 'C', 'E', 'G', 'F', 'H', 'J']        
@@ -31,7 +31,7 @@ class TestBinaryTree(TestCase):
         self.assertEqual(order, expected)
 
     @parameterized.expand([
-        RecursiveBinaryTree,
+        BinaryTree,
         # StackBinaryTree,
     ])
     def test_inorder_traversal(self, tree_type: type):
@@ -44,7 +44,7 @@ class TestBinaryTree(TestCase):
         self.assertEqual(order, expected)
 
     @parameterized.expand([
-        RecursiveBinaryTree,
+        BinaryTree,
     ])
     def test_postorder_traversal(self, tree_type: type):
         expected =  ['D', 'B', 'G', 'E', 'H', 'J', 'F', 'C', 'A']        
@@ -56,7 +56,7 @@ class TestBinaryTree(TestCase):
         self.assertEqual(order, expected)
     
     def test_noncallable_visit(self):
-        tree = RecursiveBinaryTree(None)
+        tree = BinaryTree(None)
         
         with self.assertRaises(TypeError):
             tree.preorder(1)  # type: ignore
