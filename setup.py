@@ -18,6 +18,12 @@ ext_modules = [
         extra_link_args=extra_link_args,
     ),
     Extension(
+        "knuth.linear_list",
+        ["knuth/linearList.c"],
+        extra_compile_args=extra_compile_args,
+        extra_link_args=extra_link_args,
+    ),
+    Extension(
         "knuth.linked_list",
         ["knuth/linkedList.c"],
         extra_compile_args=extra_compile_args,
